@@ -47,13 +47,13 @@ This is an example of how to list things you need to use the software and how to
     ```sh
     git clone https://github.com/your_username/project_name.git
     ```
-2.  Install NPM packages
+2.  Install Python Packages
     ```sh
-    npm install
+    pip install -r requirements.txt
     ```
-3.  Enter your API in `config.js`
-    ```js
-    const API_KEY = 'ENTER YOUR API';
+3.  Enter your API in `.env`
+    ```txt
+    API_KEY="ENTER YOUR API";
     ```
 
 ## Usage
