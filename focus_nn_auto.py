@@ -21,7 +21,7 @@ CLASE_CELULAR_YOLO = 67
 # ============================
 # PARÁMETROS MODELO INCREMENTAL
 # ============================
-MODEL_FILE = "modelo_incremental_nn.pkl"
+MODEL_FILE = "modelo_incremental.pkl"
 FEATURES_FILE = "dataset_incremental.jsonl"
 
 # ============================
@@ -243,9 +243,7 @@ class FocusMonitor:
         else:
             print("[ADVERTENCIA] No se encontraron registros. JSON no creado.")
 
-# ============================
-# EJECUCIÓN PRINCIPAL
-# ============================
+
 if __name__ == "__main__":
     materia_input = input("Por favor, ingrese la materia que estudiará: ")
     monitor = FocusMonitor(materia_input)
