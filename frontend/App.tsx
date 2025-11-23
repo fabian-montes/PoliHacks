@@ -25,9 +25,9 @@ const App: React.FC = () => {
           const result = await checkFacePresence(frame);
           
           if (result.faceDetected) {
-            setStatus(MonitoringStatus.LOW_ALERT);
-          } else {
             setStatus(MonitoringStatus.HIGH_ALERT);
+          } else {
+            setStatus(MonitoringStatus.LOW_ALERT);
           }
         } catch (e) {
           console.error("Detection cycle failed", e);

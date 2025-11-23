@@ -23,9 +23,9 @@ const StatusPanel: React.FC<StatusPanelProps> = ({ status }) => {
   );
 
   if (status === MonitoringStatus.HIGH_ALERT) {
-    alertBg = "bg-red-950/40";
-    alertBorder = "border-red-500";
-    alertText = "text-red-500";
+    alertBg = "bg-emerald-950/40";
+    alertBorder = "border-emerald-500";
+    alertText = "text-emerald-500";
     statusMessage = "NIVEL DE RENDIMIENTO ALTO";
     statusIcon = (
       <svg className="w-16 h-16 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -33,9 +33,9 @@ const StatusPanel: React.FC<StatusPanelProps> = ({ status }) => {
       </svg>
     );
   } else if (status === MonitoringStatus.LOW_ALERT) {
-    alertBg = "bg-emerald-950/40";
-    alertBorder = "border-emerald-500";
-    alertText = "text-emerald-500";
+    alertBg = "bg-red-950/40";
+    alertBorder = "border-red-500";
+    alertText = "text-red-500";
     statusMessage = "NIVEL DE RENDIMIENTO BAJO";
     statusIcon = (
       <svg className="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -76,7 +76,7 @@ const StatusPanel: React.FC<StatusPanelProps> = ({ status }) => {
             {statusMessage}
           </h2>
           <p className="text-sm opacity-80 font-mono">
-            {isHighAlert ? 'SISTEMA NO DETECTA OPERADOR' : 'OPERADOR IDENTIFICADO CORRECTAMENTE'}
+            {!isHighAlert ? 'SISTEMA NO DETECTA OPERADOR' : 'OPERADOR IDENTIFICADO CORRECTAMENTE'}
           </p>
         </div>
       </div>
