@@ -7,7 +7,7 @@ load_dotenv()
 client = genai.Client()
 
 # Define Gemini Tool for Organization
-set_objective_prompt = {
+set_objective_schema = {
     "name": "set_objective",
     "description": "defines the general objective of the study session",
     "parameters": {
@@ -40,13 +40,29 @@ set_objective_prompt = {
 # Define High Level Context
 system_prompt = (
     "You are a study assistant."
+    "In the first turn, you MUST NOT generate any text, only the function call. "
     "All your responses need to motivate the user while beeing reallistic with task achievement"
     "Give tips to the user to maximize productivity"
     "The user wont answer any questions so don't do querys"
 )
 
-# def set_objective(activity: str, objective: str) -> dict:
-#     return {"activity": activity, "objective": objective}
+def set_objective(activity: str, objective: str, time: int = None, todo_list: list[str] = None) -> dict:
+    """
+    Defines the general objective and tasks for a study session. This function is
+    called by the model when it detects the user wants to organize a study session.
+    """
+    result = {
+        "activity": activity,
+        "objective": objective,
+        "time": time,
+        "todo_list": todo_list if todo_list is not None else []
+    }
+    print(f"\n--- Executing Function: set_objective ---")
+    print(f"Objective Parameters Received: {result}")
+    print(f"-----------------------------------------")
+    
+    # The function returns a response that the model will use to generate the final text.
+    return {"status": "Objective parameters successfully extracted and structured", "details": result}
 
 # simple prompt to gemini
 def promptGemini(prompt="Explain how AI works in a few words"):
@@ -58,7 +74,10 @@ def promptGemini(prompt="Explain how AI works in a few words"):
     return response.text
 
 def organizeInformation(description):
-    tools = types.Tool(function_declarations=[set_objective_prompt])
+    # function_declaration = types.FunctionDeclaration.from_dict(**set_objective_schema)
+    function_declaration = types.FunctionDeclaration(**set_objective_schema)
+    tools = types.Tool(function_declarations=[function_declaration])
+    # tools = types.Tool(function_declarations=[set_objective_schema])
     config = types.GenerateContentConfig(system_instruction=system_prompt, tools=[tools])
 
     # Define user prompt
@@ -71,7 +90,7 @@ def organizeInformation(description):
     # Send request with function declarations
     response = client.models.generate_content(
         model="gemini-2.5-flash",
-        contents=description,
+        contents=contents,
         config=config,
     )
 
@@ -88,8 +107,8 @@ def organizeInformation(description):
     # Extract tool call details, it may not be in the first part.
     tool_call = response.candidates[0].content.parts[0].function_call
 
-    if tool_call.name == "set_objective_prompt":
-        result = set_light_values(**tool_call.args)
+    if tool_call.name == "set_objective":
+        result = set_objective(**tool_call.args)
         print(f"Function execution result: {result}")
 
     # Create a function response part
