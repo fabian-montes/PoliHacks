@@ -1,0 +1,7 @@
+{
+  "name": "Gemini Face Monitor",
+  "description": "Real-time webcam monitoring with Gemini-powered face detection analysis.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
